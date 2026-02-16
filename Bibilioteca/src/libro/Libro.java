@@ -39,9 +39,15 @@ public class Libro {
 	@Override
 	public String toString() {
 		
+		try {
 		return this.codigo + ": " + this.titulo + 
-				"( escrito por " + this.autor + " " + 
+				" (escrito por " + this.autor + " " + 
 				this.personajes.toString() + ")";
+		
+		} catch (NullPointerException e) {
+			
+			return "Error. Un libro no puede existir sin personajes";
+		}
 	}
 
 

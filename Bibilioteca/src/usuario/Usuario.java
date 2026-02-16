@@ -15,18 +15,16 @@ public class Usuario implements InterfazUsuario{
 	}
 	
 	@Override
-	public boolean sacaLibro(Libro lib) {
+	public boolean sacaLibro(Libro lib) throws UsuarioException {
 		
 		if (puedeSacarMasLibros()) {
-						
-			this.numLibrosSacados++;
 			
 			this.librosSacados.add(lib);
 			
 			return true;
 		}
 		
-		return false;
+		throw new UsuarioException("El usuario " + this.nombre + " no puede sacar mas de 10 libros");
 	}
 
 	@Override
@@ -44,17 +42,20 @@ public class Usuario implements InterfazUsuario{
 	@Override
 	public Libro devuelveLibro(String tit) {
 		
-		Libro libro;
+		Libro libro = null;
+		boolean encontrado = false;
 		
 		for(Iterator<Libro> iterator = this.librosSacados.iterator();
-				iterator.hasNext();) {
+				iterator.hasNext() && !encontrado;) {
 			
 			libro = iterator.next();
 			
-			if(libro.getTitulo().equals(tit)) {
+			if(libro.getTitulo().equalsIgnoreCase(tit)) {
 				
-				
+				encontrado = true;
 			}
+			
+			libro = null;
 		}
 		
 		return libro;
@@ -79,8 +80,27 @@ public class Usuario implements InterfazUsuario{
 		Usuario other = (Usuario) obj;
 		
 		//return Objects.equals(nombre, other.nombre);
-		return nombre.equalsIgnoreCase(other.nombre);
+		return this.nombre.equalsIgnoreCase(other.nombre);
 	}
+	
+	@Override
+	public String toString(){
+		
+		if(!this.puedeSacarMasLibros()) {
+			
+			String cadena = this.nombre + " (";
+			
+			for(Libro lib : this.librosSacados) {
+				
+				cadena += lib.getTitulo() + "; ";
+			}
+			
+			return cadena + ")";
+		}
+		
+		return this.nombre + " (No tiene libros sacados)";
+	}
+	
 
 	/**Getters y Setters
 	 * 
