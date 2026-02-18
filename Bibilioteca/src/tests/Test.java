@@ -5,9 +5,10 @@ import usuario.UsuarioException;
 
 import java.util.Arrays;
 
+import biblioteca.Biblioteca;
 import libro.Libro;
 
-public class TestUsuario {
+public class Test {
 
 	public static void main(String[] args) {
 
@@ -47,31 +48,27 @@ public class TestUsuario {
 		
 		Libro libro11 = new Libro("0011", "Moby Dick", "Herman Melville", 
 			    Arrays.asList("Ismael", "Capitán Ahab", "Queequeg", "Starbuck", "Stubb", "Flask"));
+		
+		//System.out.println(usuario1);
+		
+		//System.out.println(usuario2);
 
+		//---------
+		Biblioteca biblioteca = new Biblioteca();
 		
-		try {
-			
-			usuario1.sacaLibro(libro1);
-			usuario1.sacaLibro(libro2);
-			usuario1.sacaLibro(libro3);
-			usuario1.sacaLibro(libro4);
-			usuario1.sacaLibro(libro5);
-			usuario1.sacaLibro(libro6);
-			usuario1.sacaLibro(libro7);
-			usuario1.sacaLibro(libro8);
-			usuario1.sacaLibro(libro9);
-			usuario1.sacaLibro(libro10);
-			usuario1.sacaLibro(libro11);
+		biblioteca.altaLibro(libro1);
+		biblioteca.altaLibro(libro2);
+		biblioteca.altaLibro(libro3);
 		
-		} catch (UsuarioException e) {
-			
-			e.printStackTrace();
-		}
+		biblioteca.altaUsuario(usuario1);
+		biblioteca.altaUsuario(usuario2);
 		
-		System.out.println(usuario1);
+		System.out.println("---LIBROS DISPONIBLES---\n" + biblioteca.librosDisponibles());
 		
-		System.out.println(usuario2);
-
+		biblioteca.prestarLibro(libro1.getTitulo(), usuario1.getNombre());
+		
+		System.out.println("---LIBROS SACADOS POR USUARIO ---\n"
+							+ biblioteca.getLibrosUsuario(usuario1.getNombre()));
 	}
 
 }

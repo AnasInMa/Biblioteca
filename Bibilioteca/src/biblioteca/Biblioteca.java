@@ -41,9 +41,28 @@ public class Biblioteca implements InterfazBiblioteca {
 		return true;
 	}
 
+	/**
+	 * Método que busca un libro en la biblioteca, en caso de encontrarlo lo
+	 * devuelve y ademas lo elimina de la coleccion de libros de la biblioteca
+	 * 
+	 * @return Libro
+	 */
 	@Override
 	public Libro sacarLibro(String tit) {
-		return null;
+
+		Libro libro = null;
+
+		for (Libro lib : this.libros) {
+
+			if (lib.getTitulo().equalsIgnoreCase(tit)) {
+
+				libro = lib;
+			}
+		}
+		
+		this.libros.remove(libro);
+
+		return libro;
 	}
 
 	@Override
@@ -63,8 +82,9 @@ public class Biblioteca implements InterfazBiblioteca {
 	}
 
 	/**
-	 * Metodo que busca un libro, y en caso de encontrarlo lo quita de la coleccion
-	 * del usuario y lo añade al de la biblioteca.
+	 * Metodo que busca un libro con el metodo sacarLibro(), y en caso de
+	 * encontrarlo lo quita de la coleccion del usuario y lo añade al de la
+	 * biblioteca.
 	 * 
 	 * En caso de haber encontrado el libro, busca el usuario por el nombre pasado
 	 * como paramentro con el metodo buscarUsuario(), y si lo quita el libro de la
@@ -75,19 +95,9 @@ public class Biblioteca implements InterfazBiblioteca {
 	@Override
 	public boolean prestarLibro(String titulo, String nombre) {
 
-		boolean encontrado = false;
-		Libro libro = null;
+		Libro libro = this.sacarLibro(titulo);
 
-		for (Libro lib : this.libros) {
-
-			if (lib.getTitulo().equalsIgnoreCase(titulo)) {
-
-				encontrado = true;
-				libro = lib;
-			}
-		}
-
-		if (encontrado) {
+		if (libro != null) {
 
 			try {
 
@@ -97,13 +107,13 @@ public class Biblioteca implements InterfazBiblioteca {
 
 				System.err.println("ERROR. El usuario no esta registrado");
 
-				return encontrado;
+				return false;
 			}
 
-			this.libros.remove(libro);
+			return true;
 		}
 
-		return encontrado;
+		return false;
 	}
 
 	/**
@@ -150,25 +160,37 @@ public class Biblioteca implements InterfazBiblioteca {
 	 */
 	@Override
 	public String librosPrestadosUsuario(String nombre) {
-		
+
 		String cadena = "";
-		
-		for(Libro libro : this.buscarUsuario(nombre).getLibrosSacados()) {
-			
+
+		for (Libro libro : this.buscarUsuario(nombre).getLibrosSacados()) {
+
 			cadena += libro + "\n";
 		}
-		
+
 		return cadena;
 	}
 
 	@Override
 	public SortedSet<Libro> copias(String titulo) {
-		return null;
+		
+		SortedSet<Libro> copiaLibros = new TreeSet<>();
+		
+		for(Libro lib : this.libros) {
+			
+			if(lib.getTitulo().equalsIgnoreCase(titulo)) {
+				
+				copiaLibros.add(lib);
+			}
+		}
+			
+		return copiaLibros;
 	}
 
 	@Override
 	public Set<Libro> getLibrosUsuario(String nomCli) {
-		return null;
+		
+		return this.buscarUsuario(nomCli).getLibrosSacados();
 	}
 
 }
