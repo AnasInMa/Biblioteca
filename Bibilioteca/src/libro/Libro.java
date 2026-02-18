@@ -2,7 +2,7 @@ package libro;
 
 import java.util.*;
 
-public class Libro {
+public class Libro implements Comparable<Libro>{
 
 	private String codigo, titulo, autor;
 	private List<String> personajes;
@@ -37,6 +37,12 @@ public class Libro {
 	}
 	
 	@Override
+	public int compareTo(Libro lib) {
+		
+		return this.codigo.compareToIgnoreCase(lib.getCodigo());
+	}
+	
+	@Override
 	public String toString() {
 		
 		try {
@@ -49,7 +55,7 @@ public class Libro {
 			return "Error. Un libro no puede existir sin personajes";
 		}
 	}
-
+	
 
 	/**Getter y Setter
 	 * 

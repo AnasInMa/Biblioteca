@@ -39,6 +39,12 @@ public class Usuario implements InterfazUsuario{
 		return (this.cantidadLibrosSacados() < 10)? true : false;
 	}
 
+	/**Metodo que busca un libro por titulo,
+	 * en caso de encontrarlo saca ese libro de la
+	 * coleccion de libros del usuario y lo devuelve
+	 * 
+	 * @return Libro
+	 */
 	@Override
 	public Libro devuelveLibro(String tit) {
 		
